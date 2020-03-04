@@ -1,8 +1,6 @@
-import React, { useReducer } from 'react';
+import createDataContext from './createDataContext';
 
-//create the context
-const BlogContext = React.createContext();
-
+//our reducer
 const BlogReducer = (state, action) => {
   switch (action.type) {
     case 'add_blogpost':
@@ -13,19 +11,12 @@ const BlogReducer = (state, action) => {
   }
 };
 
-//export a named export. This will wrap our app component
-export const BlogProvider = ({ children }) => {
-  const [blogPosts, dispatch] = useReducer(BlogReducer, []);
-
-  const addBlogPost = () => {
-    dispatch({ type: 'add_blogpost' });
-  };
-
-  return (
-    <BlogContext.Provider value={{ data: blogPosts, addBlogPost: addBlogPost }}>
-      {children}
-    </BlogContext.Provider>
-  );
+const addBlogPost = () => {
+  dispatch({ type: 'add_blogpost' });
 };
 
-export default BlogContext;
+export const { Context, Provider } = createDataContext(
+  BlogReducer,
+  { addBlogPost },
+  []
+);
