@@ -1,19 +1,26 @@
 import React, { useContext } from 'react';
-import { View, Text, FlatList, Button } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Button,
+  SafeAreaView
+} from 'react-native';
 
 //context
 import BlogContext from '../context/BlogContext';
 
-const IndexScreen = () => {
+const IndexScreen = props => {
   //grab in blog context data
-  const blogValues = useContext(BlogContext);
+  const context = useContext(BlogContext);
   return (
     <View>
       <Text>This is the index screen</Text>
-      <Button onPress={blogValues.addBlogPost} title='Add Post' />
+      <Button onPress={context.addBlogPost} title='Add Post' />
       <FlatList
-        data={blogValues.data}
-        keyExtractor={blogValues => blogValues.title}
+        data={context.data}
+        keyExtractor={context => context.title}
         renderItem={({ item }) => {
           return <Text>{item.title}</Text>;
         }}
@@ -21,5 +28,11 @@ const IndexScreen = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});
 
 export default IndexScreen;
